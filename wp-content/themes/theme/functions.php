@@ -60,7 +60,6 @@
 
 
 
-
     if(function_exists('acf_add_options_page'))
     {
         acf_add_options_page(
@@ -93,39 +92,69 @@
 
 
 
-    function my_first_post_type(){
+    //my custome post
+    function my_first_post_type() {
         $args = array(
-            'labels' => array(
-                'name' => 'Cars',
-                'singular_name' => 'Car',
-            ),
-            'hierarchical' =>true,
-            'public'=>true,
+            'hierarchical' => false,
+            'public' => true,
             'has_archive' => true,
-            'supports' =>array('title','editor','thumbnail'),
-
+            'taxonomies' => array('category', 'post_tag'), // Add 'post_tag' for tags
+            'supports' => array('title', 'editor', 'thumbnail', 'tags'), // Separate 'tags' from 'thumbnail'
         );
-
-        register_post_type('cars',$args);
+    
+        register_post_type('cars', $args);
     }
     add_action('init', 'my_first_post_type');
+    
+    
+    
+    
+    
+    
+    
 
-    function my_first_taxonamy(){
-        $args = array(
-            'labels' => array(
-                'name' => 'Brands',
-                'singular_name' => 'Brand',
-            ),
-            'public'=>true,
-            'hierarchical' => true,
-        );
-        register_taxonomy('brands',array('cars'),$args);
-
-    }
-
-  
-
-
-    add_action('init', 'my_first_taxonamy');
+    // function my_first_post_type() {
+    //     $args = array(
+    //         // 'labels' => array(
+    //         //     'name' => 'Products',
+    //         //     'singular_name' => 'Car',
+    //         // ),
+    //         'hierarchical' => false,
+    //         'public' => true,
+    //         'has_archive' => true,
+    //         'taxonomies' => array('category',), 
+    //         'supports' => array('title', 'editor', 'thumbnail', 'tags'), // Add 'tags' to the supports array
+    //     );
+    
+    //     register_post_type('cars', $args);
+    // }
+    // add_action('init', 'my_first_post_type');
+    
+    // function my_first_taxonomy() {
+    //     // Taxonomy for Brands (hierarchical)
+    //     $args_brands = array(
+    //         'labels' => array(
+    //             'name' => 'Category',
+    //             'singular_name' => 'Brand',
+    //         ),
+    //         'public' => true,
+    //         'hierarchical' => true,
+    //     );
+    //     register_taxonomy('brands', array('cars'), $args_brands);
+    
+    //     // Taxonomy for Tags (non-hierarchical, like default post tags)
+    //     $args_tags = array(
+    //         'labels' => array(
+    //             'name' => 'Tags',
+    //             'singular_name' => 'Car Tag',
+    //         ),
+    //         'public' => true,
+    //         'hierarchical' => false, // Set to false for non-hierarchical (like tags)
+    //     );
+    //     register_taxonomy('car_tags', array('cars'), $args_tags);
+    // }
+    // add_action('init', 'my_first_taxonomy');
+    
 
 ?>
+

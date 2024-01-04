@@ -18,7 +18,6 @@
         </div><!-- container -->
 </section>
 
-
 <section class="story-area left-text center-sm-text pos-relative">
         <div class="abs-tbl bg-2 w-20 z--1 dplay-md-none"></div>
         <div class="abs-tbr bg-3 w-20 z--1 dplay-md-none"></div>
@@ -43,162 +42,186 @@
 </section>
 
 
-
-<?php if (have_rows('seller_section')): ?>
-    <?php while (have_rows('seller_section')): the_row(); ?>
+<?php
+if (have_rows('seller_section')):
+    while (have_rows('seller_section')): the_row();
+        ?>
         <section class="story-area bg-seller color-white pos-relative">
             <div class="pos-bottom triangle-up"></div>
             <div class="pos-top triangle-bottom"></div>
             <div class="container">
-                <?php $best_seller_title = get_sub_field('best_seller_title'); ?>
-                <?php $best_sellers = get_sub_field('best_sellers'); ?>
+                <?php
+                $best_seller_title = get_sub_field('best_seller_title');
+                $best_seller_icon = get_sub_field('best_seller_icon');
 
-                
-                <?php if ($best_seller_title): ?>
+                if ($best_seller_title):
+                    ?>
                     <div class="heading">
-
-                        <?php $icon = get_sub_field('best_seller_icon'); ?>     
-                        <!-- <img class="heading-img" src="<?php //bloginfo('template_directory'); ?>/images/heading_logo.png" alt=""> -->
-                        <img class="heading-img" src="<?php echo $icon['url']; ?>" alt="<?php echo esc_attr($title); ?>"> 
-
+                        <img class="heading-img" src="<?php echo esc_url($best_seller_icon['url']); ?>" alt="<?php echo esc_attr($best_seller_title); ?>">
                         <h2><?php echo esc_html($best_seller_title); ?></h2>
                     </div>
                 <?php endif; ?>
 
-                <?php if ($best_sellers): ?>
-                        <div class="row">   
-                                <?php while( have_rows('best_sellers') ): the_row();
-                                        $image = get_sub_field('image');
-                                        $title = get_sub_field('title');
-                                        $price = get_sub_field('price');
-                                        $link = get_sub_field('link');
-                                        $offer = get_sub_field('offer');
-                                        $deal = get_sub_field('deal_of_the_day');
-                                ?>
-                                <div class="col-lg-3 col-md-4 col-sm-6">
+                <?php
+                $categories = get_terms('category', array('hide_empty' => false));
+
+                if ($categories):
+                    ?>
+                    <div class="row">
+                        <?php foreach ($categories as $category) : ?>
+                                <?php
+                                $category_posts = get_posts(array(
+                                    'post_type' => 'cars',
+                                    'tax_query' => array(
+                                        array(
+                                            'taxonomy' => 'category',
+                                            'field'    => 'slug',
+                                            'terms'    => $category->slug,
+                                        ),
+                                    ),
+                                ));
+
+                                foreach ($category_posts as $menu_post):
+                                    $seller_image = get_field('seller_image', $menu_post->ID);
+                                    $title = $menu_post->post_title;
+                                    $price = $menu_post->price;
+                                    $deal = get_field('deal', $menu_post->ID);
+                                    ?>
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="center-text mb-30">
-                                        <div class="ïmg-200x mlr-auto pos-relative">
+                                            <div class="ïmg-200x mlr-auto pos-relative">
                                                 <?php
-                                                switch ($deal) {
-                                                case 'offer':?>
+                                                switch ($deal):
+                                                    case 'offer':
+                                                        ?>
                                                         <h6 class="ribbon-cont"><div class="ribbon primary"></div><b>OFFER</b></h6>
-                                                        <?php break;
-                                                case 'speciality':?>
-                                                        <h6 class="ribbon-cont"><div class="ribbon secondary"></div><b>SPECIALITY</b></h6>
-                                                        <?php break;
-                                                case 'plus_size':?>
-                                                        <h6 class="ribbon-cont color-black"><div class="ribbon white"></div><b>PLUS SIZE</b></h6>
-                                                        <?php break;
-                                                default:
+                                                        <?php
                                                         break;
-                                                }
+                                                    case 'speciality':
+                                                        ?>
+                                                        <h6 class="ribbon-cont"><div class="ribbon secondary"></div><b>SPECIALITY</b></h6>
+                                                        <?php
+                                                        break;
+                                                    case 'plus_size':
+                                                        ?>
+                                                        <h6 class="ribbon-cont color-black"><div class="ribbon white"></div><b>PLUS SIZE</b></h6>
+                                                        <?php
+                                                        break;
+                                                    default:
+                                                        break;
+                                                endswitch;
                                                 ?>
-                                                <img src="<?php echo $image['sizes']['product_image_large']; ?>" alt="<?php echo esc_attr($title); ?>"> 
+                                                <img src="<?php echo esc_url($seller_image['url']); ?>" alt="<?php echo esc_attr($title); ?>">
+                                            </div>
+                                            <h5 class="mt-20"><?php echo "qq" . esc_html($title); ?></h5>
+                                            <h4 class="mt-5"><b>$<?php echo esc_html($price); ?></b></h4>
+                                            <!-- Uncomment the following lines if you want to display the link -->
+                                            <?php //if ($menu_post->link): ?>
+                                                <!-- <h6 class="mt-20"><a href="<?php //echo esc_url($menu_post->link); ?>" class="btn-brdr-primary plr-25"><b>Order Now</b></a></h6> -->
+                                            <?php //endif; ?>
                                         </div>
-                                        <h5 class="mt-20"><?php echo $title; ?></h5>
-                                        <h4 class="mt-5"><b>$<?php echo $price; ?></b></h4>
-                                        <?php if($link): ?>
-                                                <h6 class="mt-20"><a href="<?php echo esc_url($link); ?>" class="btn-brdr-primary plr-25"><b>Order Now</b></a></h6>
-                                        <?php endif; ?>                                                        
-                                        </div>
-                                </div>
-                        <?php endwhile; ?> 
+                                    </div>
+                                <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
-                </div>
-            
                 <h6 class="center-text mt-40 mt-sm-20 mb-30">
                     <a href="#" class="btn-primaryc plr-25"><b>SEE TODAY'S MENU</b></a>
                 </h6>
             </div>
         </section>
-    <?php endwhile; ?>
-<?php endif; ?>
+    <?php endwhile;
+endif;
+?>
+
+
+
+<!--  -->
+<!--  -->
 
 
 
 
 
-
-
-
-
-
-<!-- 
-<?php if( have_rows('best_sellers') ): ?>
-    <section class="story-area bg-seller color-white pos-relative">
-        <div class="pos-bottom triangle-up"></div>
-        <div class="pos-top triangle-bottom"></div>
-        <div class="container">
-        <div class="heading">
-                <img class="heading-img" src="<?php bloginfo('template_directory'); ?>/images/heading_logo.png" alt="">
-                <h2>Best Sellers</h2>
-            </div>
-
-            <div class="row">   
-                <?php while( have_rows('best_sellers') ): the_row();
-                    $image = get_sub_field('image');
-                    $title = get_sub_field('title');
-                    $price = get_sub_field('price');
-                    $link = get_sub_field('link');
-                    $offer = get_sub_field('offer');
-                ?>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="center-text mb-30">
-                            <div class="ïmg-200x mlr-auto pos-relative">
-                                <?php if($offer): ?>                                           
-                                    <h6 class="ribbon-cont"><div class="ribbon primary"></div><b>OFFER</b></h6>
-                                <?php endif; ?>
-                                <img src="<?php echo $image['sizes']['product_image_large']; ?>" alt="<?php echo esc_attr($title); ?>"> 
-                            </div>
-                            <h5 class="mt-20"><?php echo $title; ?></h5>
-                            <h4 class="mt-5"><b>$<?php echo $price; ?></b></h4>
-                            <?php if($link): ?>
-                                <h6 class="mt-20"><a href="<?php echo esc_url($link); ?>" class="btn-brdr-primary plr-25"><b>Order Now</b></a></h6>
-                            <?php endif; ?>                                                        
-                        </div>
-                    </div>
-                <?php endwhile; ?> 
-                
-            </div>
-            <h6 class="center-text mt-40 mt-sm-20 mb-30"><a href="#" class="btn-primaryc plr-25"><b>SEE TODAY'S MENU</b></a></h6>
-        </div>
-    </section>            
-<?php endif; ?>
- -->
-
-
-
-
+<?php $food_item = get_field('food_menu'); 
+?>
 
 <section>
-        <div class="container">
-                <div class="heading">
-                        <img class="heading-img" src="<?php bloginfo('template_directory');?>/images/heading_logo.png" alt="">
-                        <h2>Our Menu</h2>
-                </div>
-                <?php if(have_rows('our_menu')):?>
-                        <div class="row">
-                                <div class="col-sm-12">
-                                        <ul class="selecton brdr-b-primary mb-70">
-                                                <li><a class="active" href="#" data-select="*"><b>ALL</b></a></li>
-                                                <?php while(have_rows('our_menu')): the_row();
-                                                        $category_name = get_sub_field('category_name');
-                                                        $menu_name = get_sub_field('category');
-                                                ?>
-                                                <li><a href="#" data-select="<?php echo sanitize_title($category_name);?>"><b><?php echo $category_name?></b></a></li>
-                                                <?php if(have_rows('category')):?>
+    <div class="container">
+        <div class="heading">
+            <img class="heading-img" src="<?php echo $food_item['icon']['url']; ?>" alt="icon">
+            <h2><?php echo $food_item['title']; ?></h2>
+        </div>
 
-                                                <?php endif;?>
-                                                <?php endwhile;?>
-                                        </ul>
-                                </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="selecton brdr-b-primary mb-70">
+                    <li><a class="active" href="#" data-select="*"><b>ALL</b></a></li>
+                    <?php
+                    $categories = get_categories(array(
+                        'taxonomy' => 'category',
+                        'exclude' => get_cat_ID('uncategorized'),
+                    ));
+
+                    foreach ($categories as $category) :
+                    ?>
+                        <li><a href="#" data-select="<?php echo $category->slug; ?>"><b><?php echo $category->name; ?></b></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <?php
+            $menu_posts = get_posts(array('post_type' => 'cars'));
+            $categories = get_terms('category', array('hide_empty' => false));   
+
+            foreach ($categories as $category) :
+            ?>
+                    <?php
+                    $category_posts = get_posts(array(
+                        'post_type' => 'cars',
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'category',
+                                'field'    => 'slug',
+                                'terms'    => $category->slug,
+                            ),
+                        ),
+                    ));
+
+                    foreach ($category_posts as $menu_post) :?>
+                        <div class="col-md-6 food-menu <?php echo $category->slug; ?>">
+
+                       <?php $thumbnail_url = get_the_post_thumbnail_url($menu_post->ID, 'thumbnail');
+                    ?>
+                        <div class="sided-90x mb-30">
+                            <div class="s-left"><img class="br-3" src="<?php echo $thumbnail_url; ?>" alt="Menu Image"></div>
+                            <div class="s-right">
+                                <h5 class="mb-10"><b><?php echo $menu_post->post_title; ?></b><b class="color-primary float-right">$12.00</b></h5>
+                                <p class="pr-70"><?php echo $menu_post->post_content;?></p>
+                            </div>
                         </div>
-                <?php endif;?>
+                </div><!-- food-menu -->
+                <?php endforeach; ?>
 
+            <?php endforeach; ?>
+        </div>
+        <!--row-->
 
-
-
-                <h6 class="center-text mt-40 mt-sm-20 mb-30"><a href="#" class="btn-primaryc plr-25"><b>SEE TODAYS MENU</b></a></h6>
-        </div><!-- container -->
+        <h6 class="center-text mt-40 mt-sm-20 mb-30"><a href="<?php echo $food_item['button_link']; ?>" class="btn-primaryc plr-25"><b><?php echo $food_item['button_text']; ?></b></a></h6>
+    </div><!-- container -->
 </section>
+
+
+
+
+
+
+
+<!--  -->
+<!--  -->
+
+
 <?php get_footer();?>
+
