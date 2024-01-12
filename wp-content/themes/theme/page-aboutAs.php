@@ -1,7 +1,8 @@
 <?php
 /* Template Name: About Us */
-get_header();?>
-<?php $top_banner = get_field('top_banner'); ?>
+get_header();
+$top_banner = get_field('top_banner'); 
+if($top_banner){?>
 <section class="bg-4 h-500x main-slider pos-relative">
     <div class="triangle-up pos-bottom"></div>
     <div class="container h-100">
@@ -17,14 +18,16 @@ get_header();?>
         </div>
     </div>
 </section>
+<?php } 
 
-<?php $story_area = get_field('story_area'); ?>
+$story_area = get_field('story_area');
+if($story_area){?>
 <section class="story-area left-text center-sm-text">
     <div class="container">
         <div class="row">
             <?php if ($story_area['imgae_1']['url']) { ?>
-                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_1']['url'];?>" alt=""></div>
-                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_2']['url'];?>" alt=""></div>
+                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_1']['url'];?>" alt="<?php echo $story_area['imgae_1']['alt'];?>"></div>
+                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_2']['url'];?>" alt="<?php echo $story_area['imgae_1']['alt'];?>"></div>
             <?php } ?>
             <div class="col-md-12">
                 <?php if ($story_area['story_title']) { ?>
@@ -61,8 +64,9 @@ get_header();?>
         <?php } ?>
     </div><!-- container -->
 </section>
+<?php } 
 
-<?php $review_section = get_field('review_section');
+$review_section = get_field('review_section');
 if ($review_section){?>
     <section class="story-area bg-seller color-white pos-relative">
         <div class="pos-bottom triangle-up"></div>
@@ -81,8 +85,8 @@ if ($review_section){?>
                         <h4><?php echo $t; ?></h4>
                         <p class="color-ash mb-50 mb-sm-30 mt-20"><?php echo ($review['review_content']); ?></p>
                         <img class="circle-60 mb-20 " src="<?php echo($review['profile']['url']); ?>" alt="no img">
-                        <h6><b class="color-primary"><?php echo esc_html( $review['name']);?></b>,<b
-                                class="color-ash"><?php echo esc_html($review['role_']); ?></b></h6>
+                        <h6><b class="color-primary"><?php echo( $review['name']);?></b>,<b
+                                class="color-ash"><?php echo($review['role_']); ?></b></h6>
                     </div>
                     <?php }?>
                 </div><!-- swiper-wrapper -->
