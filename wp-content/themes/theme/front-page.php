@@ -2,63 +2,66 @@
 $hero=get_field('hero'); 
 $main_information=get_field('main_information'); ?>
 
-<section class="bg-1 h-900x main-slider pos-relative">
-        <div class="triangle-up pos-bottom"></div>
-        <div class="container h-100">
-                <div class="dplay-tbl">
-                    <div class="dplay-tbl-cell center-text color-white">
-                            <?php if ($hero['small_title']) { ?>
-                                <h5><b> <?php echo $hero['small_title'];?></b></h5>
-                            <?php } 
-                            if ($hero['main_title']){ ?>
-                                <h1 class="mt-30 mb-15"><?php echo $hero['main_title'];?></h1>
-                            <?php } 
-                            if($hero['link']){?>
-                                    <h5><a href="<?php echo $hero['link'];?>" class="btn-primaryc plr-25"><b><?php echo $hero['link_text'];?></</b></a></h5>
-                            <?php } ?>
+<?php if($hero){ ?>
+    <section class="bg-1 h-900x main-slider pos-relative">
+            <div class="triangle-up pos-bottom"></div>
+            <div class="container h-100">
+                    <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell center-text color-white">
+                                <?php if ($hero['small_title']) { ?>
+                                    <h5><b> <?php echo $hero['small_title'];?></b></h5>
+                                <?php } 
+                                if ($hero['main_title']){ ?>
+                                    <h1 class="mt-30 mb-15"><?php echo $hero['main_title'];?></h1>
+                                <?php } 
+                                if($hero['link'] && $hero['link_text']){?>
+                                        <h5><a href="<?php echo $hero['link'];?>" class="btn-primaryc plr-25"><b><?php echo $hero['link_text'];?></</b></a></h5>
+                                <?php } ?>
+                        </div>
                     </div>
-                </div>
-        </div>
-</section>
+            </div>
+    </section>
+<?php } ?>
 
-<section class="story-area left-text center-sm-text pos-relative">
-        <div class="abs-tbl bg-2 w-20 z--1 dplay-md-none"></div>
-        <div class="abs-tbr bg-3 w-20 z--1 dplay-md-none"></div>
-        <?php if($main_information){ ?>
-            <div class="container">
-                    <div class="heading">
-                        <?php if ($main_information['section_icon']['url']) { ?>
-                            <img class="heading-img" src="<?php echo $main_information['section_icon']['url']; ?>" alt=""> 
-                        <?php } 
-                        if ($main_information['information_title']){ ?>
-                            <h2><?php echo $main_information['information_title']; ?></h2>
-                        <?php } ?>
-                    </div>
-                    <div class="row">
-                        <?php if ($main_information['left_side']){ ?>
-                            <div class="col-md-6">
-                                    <?php echo wp_kses($main_information['left_side'], array('strong' => array())); ?>
-                            </div><!-- col-md-6 -->
-                        <?php }
-                        if($main_information['right_side']){ ?>
-                            <div class="col-md-6">
-                                    <?php echo wp_kses($main_information['right_side'], array('strong' => array())); ?>
-                            </div><!-- col-md-6 -->
-                        <?php } ?>
-                    </div><!-- row -->
-            </div><!-- container -->
-        <?php } ?>
-</section>
+<?php if($main_information){ ?>
+    <section class="story-area left-text center-sm-text pos-relative">
+            <div class="abs-tbl bg-2 w-20 z--1 dplay-md-none"></div>
+            <div class="abs-tbr bg-3 w-20 z--1 dplay-md-none"></div>
+                <div class="container">
+                        <div class="heading">
+                            <?php if ($main_information['section_icon']['url']) { ?>
+                                <img class="heading-img" src="<?php echo $main_information['section_icon']['url']; ?>" alt="<?php echo esc_attr($best_seller_title); ?>"> 
+                            <?php } 
+                            if ($main_information['information_title']){ ?>
+                                <h2><?php echo $main_information['information_title']; ?></h2>
+                            <?php } ?>
+                        </div>
+                        <div class="row">
+                            <?php if ($main_information['left_side']){ ?>
+                                <div class="col-md-6">
+                                        <?php echo wp_kses($main_information['left_side'], array('strong' => array())); ?>
+                                </div><!-- col-md-6 -->
+                            <?php }
+                            if($main_information['right_side']){ ?>
+                                <div class="col-md-6">
+                                        <?php echo wp_kses($main_information['right_side'], array('strong' => array())); ?>
+                                </div><!-- col-md-6 -->
+                            <?php } ?>
+                        </div><!-- row -->
+                </div><!-- container -->
+    </section>
+<?php } ?>
 
 <?php
-    if (have_rows('seller_section')){
-        while (have_rows('seller_section')): the_row();?>
+    $seller_section=get_field('seller_section');
+    if (have_rows($seller_section)){
+        while (have_rows($seller_section)): the_row();?>
             <section class="story-area bg-seller color-white pos-relative">
                 <div class="pos-bottom triangle-up"></div>
                 <div class="pos-top triangle-bottom"></div>
                 <div class="container"><?php
-                    $best_seller_title = get_sub_field('best_seller_title');
-                    $best_seller_icon = get_sub_field('best_seller_icon');?>
+                    $best_seller_title = $seller_section['best_seller_title'];
+                    $best_seller_icon = $seller_section['best_seller_icon'];?>
                     <?php if ($best_seller_title) { ?>          
                         <div class="heading">
                             <img class="heading-img" src="<?php echo esc_url($best_seller_icon['url']); ?>" alt="<?php echo esc_attr($best_seller_title); ?>">
@@ -113,7 +116,7 @@ $main_information=get_field('main_information'); ?>
                             }; ?>
                         </div>
                     <?php }
-                    $link = get_sub_field('link'); ?>
+                    $link = $seller_section['link']; ?>
                     <?php if ($link['url'] && $link['title']) { ?>  
                         <h6 class="center-text mt-40 mt-sm-20 mb-30">
                             <a href="<?php echo $link['url'];?>" class="btn-primaryc plr-25"><b><?php echo $link['title'];?></b></a>
