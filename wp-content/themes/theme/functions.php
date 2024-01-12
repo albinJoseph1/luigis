@@ -43,16 +43,4 @@
     }
     add_action('wp_enqueue_scripts','addjs');
     #Custom option for header and footer
-    if(function_exists('acf_add_options_page'))
-    {
-        acf_add_options_page(
-            array(
-                'page_title' => 'Website Settings',
-                'menu_title' => 'Website Settings',
-                'menu_slug' => 'website-settings',
-                'capability' => 'edit_posts',
-                'icon_url' => 'dashicons-admin-tools'
-            )
-        );
-    }
 ?>
