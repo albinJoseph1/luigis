@@ -30,7 +30,7 @@ $main_information=get_field('main_information'); ?>
                 <div class="container">
                         <div class="heading">
                             <?php if ($main_information['section_icon']['url']) { ?>
-                                <img class="heading-img" src="<?php echo $main_information['section_icon']['url']; ?>" alt="<?php echo esc_attr($best_seller_title); ?>"> 
+                                <img class="heading-img" src="<?php echo $main_information['section_icon']['url']; ?>" alt="<?php echo $main_information['section_icon']['alt']; ?>"> 
                             <?php } 
                             if ($main_information['information_title']){ ?>
                                 <h2><?php echo $main_information['information_title']; ?></h2>
@@ -39,12 +39,12 @@ $main_information=get_field('main_information'); ?>
                         <div class="row">
                             <?php if ($main_information['left_side']){ ?>
                                 <div class="col-md-6">
-                                        <?php echo wp_kses($main_information['left_side'], array('strong' => array())); ?>
+                                        <?php echo $main_information['left_side']; ?>
                                 </div><!-- col-md-6 -->
                             <?php }
                             if($main_information['right_side']){ ?>
                                 <div class="col-md-6">
-                                        <?php echo wp_kses($main_information['right_side'], array('strong' => array())); ?>
+                                        <?php echo $main_information['right_side']; ?>
                                 </div><!-- col-md-6 -->
                             <?php } ?>
                         </div><!-- row -->
@@ -54,8 +54,8 @@ $main_information=get_field('main_information'); ?>
 
 <?php
     $seller_section=get_field('seller_section');
-    if (have_rows($seller_section)){
-        while (have_rows($seller_section)): the_row();?>
+    if (have_rows('seller_section')){
+        while (have_rows('seller_section')): the_row();?>
             <section class="story-area bg-seller color-white pos-relative">
                 <div class="pos-bottom triangle-up"></div>
                 <div class="pos-top triangle-bottom"></div>
@@ -64,7 +64,7 @@ $main_information=get_field('main_information'); ?>
                     $best_seller_icon = $seller_section['best_seller_icon'];?>
                     <?php if ($best_seller_title) { ?>          
                         <div class="heading">
-                            <img class="heading-img" src="<?php echo esc_url($best_seller_icon['url']); ?>" alt="<?php echo esc_attr($best_seller_title); ?>">
+                            <img class="heading-img" src="<?php echo $best_seller_icon['url']; ?>" alt="<?php echo $best_seller_title; ?>">
                             <h2><?php echo esc_html($best_seller_title); ?></h2>
                         </div>
                     <?php }; 
