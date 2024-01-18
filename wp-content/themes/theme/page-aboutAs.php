@@ -82,11 +82,24 @@ if ($review_section){?>
                 <div class="swiper-wrapper pb-90 pb-sm-60 left-text center-sm-text">
                     <?php foreach($review_section as $review){?>
                     <div class="swiper-slide">
-                        <h4><?php echo $t; ?></h4>
-                        <p class="color-ash mb-50 mb-sm-30 mt-20"><?php echo ($review['review_content']); ?></p>
-                        <img class="circle-60 mb-20 " src="<?php echo($review['profile']['url']); ?>" alt="no img">
-                        <h6><b class="color-primary"><?php echo( $review['name']);?></b>,<b
-                                class="color-ash"><?php echo($review['role_']); ?></b></h6>
+                        <?php 
+                        if($review['review_title']){?>                        
+                            <h4><?php echo $review['review_title'];?></h4>
+                        <?php } 
+                        if($review['review_content']){?>                        
+                            <p class="color-ash mb-50 mb-sm-30 mt-20"><?php echo ($review['review_content']); ?></p>
+                        <?php } 
+                        if($review['profile']){?>   
+                            <img class="circle-60 mb-20 " src="<?php echo($review['profile']['url']); ?>" alt="no img">
+                        <?php } 
+                        if($review['name']){?>   
+                            <h6>
+                                <b class="color-primary"><?php echo( $review['name']);?></b>
+                                <?php if($review['name']){?>,   
+                                    <b class="color-ash"><?php echo($review['role_']); ?></b>
+                                <?php } ?>
+                            </h6>
+                        <?php } ?>
                     </div>
                     <?php }?>
                 </div><!-- swiper-wrapper -->
