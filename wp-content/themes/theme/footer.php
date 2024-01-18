@@ -2,12 +2,9 @@
                 <footer class="pb-50  pt-70 pos-relative">
                         <div class="pos-top triangle-bottom"></div>
                         <div class="container-fluid">
-                                <?php
-                                $custom_logo_id = get_theme_mod('custom_logo');
-                                if ($custom_logo_id) {
-                                        $logo_url = wp_get_attachment_image_src($custom_logo_id, 'full')[0];?>
-                                        <a class="logo" href="#"><img src="<?php echo $logo_url; ?>" alt="Logo"></a>
-                                <?php } 
+                                <?php if (has_custom_logo()) : ?>
+                                        <a href="#"><?php the_custom_logo(); ?></a>
+                                <?php endif;                            
                                 if ($con_footer['address_field']['title'] && $con_footer['address_field']['title_value']) { ?>
                                         <div class="pt-30">
                                                 <p class="underline-secondary"><b><?php echo $con_footer['address_field']['title']; ?></b></p>
