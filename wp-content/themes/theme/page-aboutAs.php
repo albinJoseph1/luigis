@@ -27,7 +27,7 @@ if($story_area){?>
         <div class="row">
             <?php if ($story_area['imgae_1']['url']) { ?>
                 <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_1']['url'];?>" alt="<?php echo $story_area['imgae_1']['alt'];?>"></div>
-                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_2']['url'];?>" alt="<?php echo $story_area['imgae_1']['alt'];?>"></div>
+                <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_2']['url'];?>" alt="<?php echo $story_area['imgae_2']['alt'];?>"></div>
             <?php } ?>
             <div class="col-md-12">
                 <?php if ($story_area['story_title']) { ?>
