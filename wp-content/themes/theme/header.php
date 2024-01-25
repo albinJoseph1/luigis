@@ -14,9 +14,11 @@
                         <?php $con_header = get_field('header', 'option'); ?>
                         <div class="container">
                                 <?php
-                                if (has_custom_logo()) : ?>
-                                        <a href="#"><?php the_custom_logo(); ?></a>
-                                <?php endif;         
+                                 $custom_logo_id = get_theme_mod('custom_logo');
+                                 $logo_url = wp_get_attachment_image_src($custom_logo_id, 'full')[0];
+                                if($logo_url):?>
+                                        <a class="logo" href="#"><img src="<?php echo $logo_url; ?>" alt="Logo"></a>
+                                <?php endif;   
                                 if ($con_header['button_link']['url'] && $con_header['button_text']) { ?>
                                         <div class="right-area">
                                                 <h6><a class="plr-20 color-white btn-fill-primary" href="<?php echo $con_header['button_link']['url']; ?>"><?php echo $con_header['button_text']; ?></a></h6>
