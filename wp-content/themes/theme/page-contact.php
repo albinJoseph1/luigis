@@ -22,7 +22,7 @@ if ($contact_page_top_banner){?>
 <?php }
 
 $contact_section = get_field('contact_section'); 
-if ($contact_section['section_title']){?>
+if ($contact_section){?>
     <section class="story-area left-text center-sm-text">
         <div class="container">
             <div class="heading">
