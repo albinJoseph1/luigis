@@ -90,14 +90,14 @@ $main_information=get_field('main_information'); ?>
                                 $title = $menu_post->post_title;
                                 $price = $menu_post->price;
                                 $tags = wp_get_post_tags($menu_post->ID);                                
-                                $lines = explode("\n", $tags[0]->description);
+                                $ribbonClass= $tags[0]->description;
                                 $tagname=$tags[0]->name;                           
                                 if ($seller_image){ ?>           
                                     <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="center-text mb-30">
                                             <div class="ïmg-200x mlr-auto pos-relative">
                                                 <?php if ($tagname) {  ?>   
-                                                    <h6 class="<?php echo esc_html($lines[0]);?>"><div class="<?php echo esc_html($lines[1]);?>"></div><b><?php echo $tagname; ?></b></h6>
+                                                    <h6 class="ribbon-cont <?php echo ($ribbonClass=='ribbon white')? 'color-black':'' ;?>"><div class="<?php echo $ribbonClass;?>"></div><b><?php echo $tagname; ?></b></h6>
                                                 <?php } ?>
                                                 <img src="<?php echo esc_url($seller_image['url']); ?>" alt="<?php echo esc_attr($title); ?>">
                                             </div>
