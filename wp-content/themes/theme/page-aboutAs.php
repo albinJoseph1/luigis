@@ -25,8 +25,10 @@ if($story_area){?>
 <section class="story-area left-text center-sm-text">
     <div class="container">
         <div class="row">
-            <?php if ($story_area['imgae_1']['url']) { ?>
+            <?php if ($story_area['imgae_1']) { ?>
                 <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_1']['url'];?>" alt="<?php echo $story_area['imgae_1']['alt'];?>"></div>
+            <?php }
+            if ($story_area['imgae_2']) { ?>
                 <div class="col-md-6"><img class="mb-30" src="<?php echo $story_area['imgae_2']['url'];?>" alt="<?php echo $story_area['imgae_2']['alt'];?>"></div>
             <?php } ?>
             <div class="col-md-12">
@@ -56,10 +58,9 @@ if($story_area){?>
         <?php $button_section = $story_area['button'];
         if ($button_section) { ?>
             <h6 class="center-text mt-40 mt-sm-30 mb-20">
-                <?php foreach ($button_section as $button): ?>
-                <a href="<?php echo $button['button_link_and_text']['url']; ?>"
-                    class="<?php echo $button['class']; ?>"><b><?php echo $button['button_link_and_text']['title']; ?></b></a>
-                <?php endforeach; ?>
+            <?php foreach ($button_section as $button) { ?>
+                <a href="<?php echo $button['button_link_and_text']['url']; ?>" class="<?php echo $button['class']; ?>"><b><?php echo $button['button_link_and_text']['title']; ?></b></a>
+            <?php } ?>
             </h6>
         <?php } ?>
     </div><!-- container -->
@@ -115,15 +116,23 @@ if ($counter_section){ ?>
         <div class="container">
             <div class="row">
                 <?php foreach($counter_section as $counter){?>
-                <div class="col-sm-6 col-md-3">
-                    <div class="mb-30 ">
-                        <i class="mlr-auto mb-30  <?php echo ($counter['icon_class']); ?>"></i>
-                        <h2><b><span class="counter-value" data-duration="400"
-                                    data-count="<?php echo ($counter['count']); ?>">0</span></b>
-                        </h2>
-                        <h5 class="semi-black"><b><?php echo ($counter['text']); ?></b></h5>
+                    <div class="col-sm-6 col-md-3">
+                        <?php if($counter['icon_class'] && $counter['text'] && $counter['count']){ ?>
+                            <div class="mb-30 ">
+                                <?php if($counter['icon_class']){ ?>
+                                    <i class="mlr-auto mb-30  <?php echo ($counter['icon_class']); ?>"></i>
+                                <?php }
+                                if($counter['text'] && $counter['count']){ ?>
+                                    <h2><b><span class="counter-value" data-duration="400"
+                                                data-count="<?php echo ($counter['count']); ?>">0</span></b>
+                                    </h2>
+                                <?php }
+                                if($counter['count']){ ?>
+                                    <h5 class="semi-black"><b><?php echo ($counter['text']); ?></b></h5>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
                     </div>
-                </div>
                 <?php }?>
             </div><!-- row-->
         </div><!-- container-->
